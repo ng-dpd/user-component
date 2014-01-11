@@ -1,6 +1,6 @@
 angular.module('navbarUserComponent', ['ngResource']).
   factory('DpdUser', ['$resource', function($resource) {
-    return $resource('/me');
+    return $resource('/users/:path');
   }]).
   service('dpdUserStore', function () {
     this.set = function (username, id) {
@@ -14,7 +14,6 @@ angular.module('navbarUserComponent', ['ngResource']).
     };
   }).
   controller('NavbarUserComponentCtrl', ['DpdUser', 'dpdUserStore', function(DpdUser, dpdUserStore) {
-    var self = this;
     this.user = dpdUserStore;
 
     this.onGetMe = function (user) {
@@ -30,7 +29,11 @@ angular.module('navbarUserComponent', ['ngResource']).
       dpdUserStore.clear();
     };
 
-    DpdUser.get().$promise.then(this.onGetMe, this.onGetMeError);
+    this.logout = function () {
+      DpdUser.get({path: 'logout'});
+    }
+
+    DpdUser.get({path: 'me'}).$promise.then(this.onGetMe, this.onGetMeError);
   }]).
   directive('ngDpdNavbarUserComponent', function() {
     return {
