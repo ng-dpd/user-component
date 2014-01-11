@@ -1,7 +1,7 @@
-describe('NavbarUserComponent', function() {
+describe('UserComponent', function() {
   var $httpBackend, $compile, $rootScope, dpdUserStore, DpdUser, fakeUser;
 
-  beforeEach(module('navbarUserComponent', 'navbar-user-component.html'));
+  beforeEach(module('dpdUser', 'user-component.html'));
 
   beforeEach(inject(function(_$rootScope_, _$httpBackend_, _$compile_, _dpdUserStore_, _DpdUser_, _$controller_) {
     dpdUserStore = _dpdUserStore_;
@@ -40,13 +40,13 @@ describe('NavbarUserComponent', function() {
   });
 
 
-  describe('NavbarUserComponentCtrl', function () {
+  describe('UserComponentCtrl', function () {
     it('should set user in the dpdUserStore service after successfully fetching user',
         function () {
           var controller, setSpy = spyOn(dpdUserStore, 'set');
           $httpBackend.whenGET('/users/me').respond(JSON.stringify(fakeUser));
 
-          controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+          controller = $controller('UserComponentCtrl', $rootScope.$new());
           $httpBackend.flush();
 
           expect(setSpy).toHaveBeenCalledWith(fakeUser.username, fakeUser.id);
@@ -56,7 +56,7 @@ describe('NavbarUserComponent', function() {
     it('should clear user if not username in response object', function () {
       var controller, setSpy = spyOn(dpdUserStore, 'clear');
       $httpBackend.whenGET('/users/me').respond(204);
-      controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+      controller = $controller('UserComponentCtrl', $rootScope.$new());
       $httpBackend.flush();
 
       expect(setSpy).toHaveBeenCalled();
@@ -66,7 +66,7 @@ describe('NavbarUserComponent', function() {
     it('should clear user if request errors', function () {
       var controller, setSpy = spyOn(dpdUserStore, 'clear');
       $httpBackend.whenGET('/users/me').respond(400);
-      controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+      controller = $controller('UserComponentCtrl', $rootScope.$new());
       $httpBackend.flush();
 
       expect(setSpy).toHaveBeenCalled();
@@ -76,7 +76,7 @@ describe('NavbarUserComponent', function() {
     describe('.logout()', function () {
       it('should log out when calling logout()', function () {
         $httpBackend.expectGET('/users/me').respond(200);
-        var controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+        var controller = $controller('UserComponentCtrl', $rootScope.$new());
         $httpBackend.expectGET('/users/logout').respond(200);
         controller.logout();
         $httpBackend.flush();
@@ -86,7 +86,7 @@ describe('NavbarUserComponent', function() {
       it('should clear dpdUserStore', function () {
         var controller, spy = spyOn(dpdUserStore, 'clear');
         $httpBackend.expectGET('/users/me').respond(200);
-        controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+        controller = $controller('UserComponentCtrl', $rootScope.$new());
         $httpBackend.expectGET('/users/logout').respond(200);
         controller.logout();
         $httpBackend.flush();
@@ -96,12 +96,11 @@ describe('NavbarUserComponent', function() {
     });
 
 
-
     describe('.login()', function () {
       it('should attempt to log in', function () {
         var controller, spy = spyOn(dpdUserStore, 'set');
         $httpBackend.expectGET('/users/me').respond(200);
-        controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+        controller = $controller('UserComponentCtrl', $rootScope.$new());
         $httpBackend.expectPOST('/users/login').respond('{"uid": "uniqueid"}');
 
         controller.login('myusername', 'fooey');
@@ -121,9 +120,9 @@ describe('NavbarUserComponent', function() {
       it('should emit a success notification', function () {
         var controller, spy = spyOn(angular, 'noop');
         $httpBackend.expectGET('/users/me').respond(200);
-        controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+        controller = $controller('UserComponentCtrl', $rootScope.$new());
         $httpBackend.expectPOST('/users/login').respond('{"uid": "uniqueid"}');
-        $rootScope.$on('navbarUserComponent.login', angular.noop);
+        $rootScope.$on('dpdUser.login', angular.noop);
         controller.login('myusername', 'fooey');
         $httpBackend.flush();
 
@@ -136,7 +135,7 @@ describe('NavbarUserComponent', function() {
   describe('ngDpdNavbarUserComponent', function () {
     it('should show the username if the user is already logged in', function() {
       $httpBackend.whenGET('/users/me').respond(JSON.stringify(fakeUser));
-      var compiled = $compile('<ng-dpd-navbar-user-component></ng-dpd-navbar-user-component>')($rootScope);
+      var compiled = $compile('<dpd-user-component></dpd-user-component>')($rootScope);
       $rootScope.$apply();
       $httpBackend.flush();
 
@@ -146,7 +145,7 @@ describe('NavbarUserComponent', function() {
 
     it('should show an error message when fetching a user throws an error', function () {
       $httpBackend.whenGET('/users/me').respond(400);
-      var compiled = $compile('<ng-dpd-navbar-user-component></ng-dpd-navbar-user-component>')($rootScope);
+      var compiled = $compile('<dpd-user-component></dpd-user-component>')($rootScope);
       $rootScope.$apply();
       $httpBackend.flush();
 

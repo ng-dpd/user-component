@@ -1,4 +1,4 @@
-angular.module('navbarUserComponent', ['ngResource']).
+angular.module('dpdUser', ['ngResource']).
   factory('DpdUser', ['$resource', function($resource) {
     return $resource('/users/:path');
   }]).
@@ -13,7 +13,7 @@ angular.module('navbarUserComponent', ['ngResource']).
       this.id = null;
     };
   }).
-  controller('NavbarUserComponentCtrl', ['$rootScope', '$http', 'DpdUser', 'dpdUserStore', function($rootScope, $http, DpdUser, dpdUserStore) {
+  controller('UserComponentCtrl', ['$rootScope', '$http', 'DpdUser', 'dpdUserStore', function($rootScope, $http, DpdUser, dpdUserStore) {
     this.user = dpdUserStore;
 
     this.onGetMe = function (user) {
@@ -29,10 +29,8 @@ angular.module('navbarUserComponent', ['ngResource']).
       $http.post('/users/login', {username: username, password: password}).
         then(function (user) {
           dpdUserStore.set(username, user.data.uid);
-        },
-        function (err) {
-          console.log(err);
-        })
+          $rootScope.$emit('dpdUser.login', {username: username, id: user.data.uid});
+        });
     };
 
     this.onGetMeError = function () {
@@ -42,17 +40,17 @@ angular.module('navbarUserComponent', ['ngResource']).
     this.logout = function () {
       $http.get('/users/logout');
       dpdUserStore.clear();
-      $rootScope.$emit('navbarUserComponent.logout');
+      $rootScope.$emit('dpdUser.logout');
     };
 
     DpdUser.get({path: 'me'}).$promise.then(this.onGetMe, this.onGetMeError);
   }]).
-  directive('ngDpdNavbarUserComponent', function() {
+  directive('dpdUserComponent', function() {
     return {
       restrict: 'E',
-      controller: 'NavbarUserComponentCtrl',
+      controller: 'UserComponentCtrl',
       controllerAs: 'userComponentCtrl',
       scope: {},
-      templateUrl: 'navbar-user-component.html'
+      templateUrl: 'user-component.html'
     };
   });
