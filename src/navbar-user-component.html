@@ -1,0 +1,10 @@
+<div>
+  <div ng-if="userComponentCtrl.user.username">
+    {{userComponentCtrl.user.username}}
+    |
+    <a ng-click="userComponentCtrl.logout()">logout</a>
+  </div>
+  <div ng-if="!userComponentCtrl.user.username">
+    <form name="loginForm"></form>
+  </div>
+</div>
