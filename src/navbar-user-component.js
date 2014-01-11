@@ -13,7 +13,7 @@ angular.module('navbarUserComponent', ['ngResource']).
       this.id = null;
     };
   }).
-  controller('NavbarUserComponentCtrl', ['$http', 'DpdUser', 'dpdUserStore', function($http, DpdUser, dpdUserStore) {
+  controller('NavbarUserComponentCtrl', ['$rootScope', '$http', 'DpdUser', 'dpdUserStore', function($rootScope, $http, DpdUser, dpdUserStore) {
     this.user = dpdUserStore;
 
     this.onGetMe = function (user) {
@@ -40,7 +40,9 @@ angular.module('navbarUserComponent', ['ngResource']).
     };
 
     this.logout = function () {
-      DpdUser.get({path: 'logout'});
+      $http.get('/users/logout');
+      dpdUserStore.clear();
+      $rootScope.$emit('navbarUserComponent.logout');
     };
 
     DpdUser.get({path: 'me'}).$promise.then(this.onGetMe, this.onGetMeError);

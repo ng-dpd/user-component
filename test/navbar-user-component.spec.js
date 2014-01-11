@@ -73,29 +73,62 @@ describe('NavbarUserComponent', function() {
     });
 
 
-    it('should log out when calling logout()', function () {
-      $httpBackend.expectGET('/users/me').respond(200);
-      var controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
-      $httpBackend.expectGET('/users/logout').respond(200);
-      controller.logout();
-      $httpBackend.flush();
+    describe('.logout()', function () {
+      it('should log out when calling logout()', function () {
+        $httpBackend.expectGET('/users/me').respond(200);
+        var controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+        $httpBackend.expectGET('/users/logout').respond(200);
+        controller.logout();
+        $httpBackend.flush();
+      });
+
+
+      it('should clear dpdUserStore', function () {
+        var controller, spy = spyOn(dpdUserStore, 'clear');
+        $httpBackend.expectGET('/users/me').respond(200);
+        controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+        $httpBackend.expectGET('/users/logout').respond(200);
+        controller.logout();
+        $httpBackend.flush();
+
+        expect(spy).toHaveBeenCalled();
+      });
     });
 
 
-    it('should attempt logging in when calling login()', function () {
-      var controller, spy = spyOn(dpdUserStore, 'set');
-      $httpBackend.expectGET('/users/me').respond(200);
-      controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
-      $httpBackend.expectPOST('/users/login').respond('{"uid": "uniqueid"}');
 
-      controller.login('myusername', 'fooey');
-      $httpBackend.flush();
+    describe('.login()', function () {
+      it('should attempt to log in', function () {
+        var controller, spy = spyOn(dpdUserStore, 'set');
+        $httpBackend.expectGET('/users/me').respond(200);
+        controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+        $httpBackend.expectPOST('/users/login').respond('{"uid": "uniqueid"}');
 
-      expect(spy).toHaveBeenCalledWith('myusername', 'uniqueid');
+        controller.login('myusername', 'fooey');
+        $httpBackend.flush();
+
+        expect(spy).toHaveBeenCalledWith('myusername', 'uniqueid');
+      });
+
+
+      it('should throw when not passed a required argument', function () {
+
+      });
     });
 
-    it('should throw when not passed a required argument', function () {
 
+    describe('.onLogin()', function () {
+      it('should emit a success notification', function () {
+        var controller, spy = spyOn(angular, 'noop');
+        $httpBackend.expectGET('/users/me').respond(200);
+        controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+        $httpBackend.expectPOST('/users/login').respond('{"uid": "uniqueid"}');
+        $rootScope.$on('navbarUserComponent.login', angular.noop);
+        controller.login('myusername', 'fooey');
+        $httpBackend.flush();
+
+        expect(spy).toHaveBeenCalled();
+      });
     });
   });
 
