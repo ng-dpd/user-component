@@ -79,8 +79,24 @@ describe('NavbarUserComponent', function() {
       $httpBackend.expectGET('/users/logout').respond(200);
       controller.logout();
       $httpBackend.flush();
+    });
 
-    })
+
+    it('should attempt logging in when calling login()', function () {
+      var controller, spy = spyOn(dpdUserStore, 'set');
+      $httpBackend.expectGET('/users/me').respond(200);
+      controller = $controller('NavbarUserComponentCtrl', $rootScope.$new());
+      $httpBackend.expectPOST('/users/login').respond('{"uid": "uniqueid"}');
+
+      controller.login('myusername', 'fooey');
+      $httpBackend.flush();
+
+      expect(spy).toHaveBeenCalledWith('myusername', 'uniqueid');
+    });
+
+    it('should throw when not passed a required argument', function () {
+
+    });
   });
 
 

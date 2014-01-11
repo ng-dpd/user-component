@@ -5,6 +5,33 @@
     <a ng-click="userComponentCtrl.logout()">logout</a>
   </div>
   <div ng-if="!userComponentCtrl.user.username">
-    <form name="loginForm"></form>
+    <form name="loginForm"
+          ng-submit="userComponentCtrl.login(loginForm.username, loginForm.password)">
+      <div class="form-group">
+        <label for="usernameInput">Username</label>
+        <input type="text"
+               class="form-control"
+               id="usernameInput"
+               placeholder="username"
+               ng-model="loginForm.username"
+               ng-required>
+
+
+      </div>
+      <div class="form-group">
+        <label for="passwordInput">Password</label>
+        <input type="password"
+               class="form-control"
+               id="passwordInput"
+               ng-model="loginForm.password"
+               ng-required>
+
+
+      </div>
+      <button type="submit"
+              ng-disabled="!loginForm.$valid"
+              class="btn btn-default">Log in</button>
+    </form>
   </div>
+
 </div>
