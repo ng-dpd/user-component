@@ -5,7 +5,7 @@ module.exports = function(config) {
   config.set({
 
     // base path, that will be used to resolve files and exclude
-    basePath: '',
+    basePath: 'src/',
 
 
     // frameworks to use
@@ -14,11 +14,12 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'bower_components/angular/angular.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'bower_components/angular-resource/angular-resource.js',
-      'test/**/*.spec.js',
-      'src/**/*.js'
+      '../bower_components/angular/angular.js',
+      '../bower_components/angular-mocks/angular-mocks.js',
+      '../bower_components/angular-resource/angular-resource.js',
+      '**/*.js',
+      '**/*.html',
+      '../test/**/*.spec.js'
     ],
 
 
@@ -26,6 +27,10 @@ module.exports = function(config) {
     exclude: [
 
     ],
+
+    preprocessors: {
+      '**/*.html': ['ng-html2js']
+    },
 
 
     // test results reporter to use

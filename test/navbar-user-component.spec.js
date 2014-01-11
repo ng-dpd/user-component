@@ -1,7 +1,7 @@
 describe('NavbarUserComponent', function() {
   var $httpBackend, $compile, $rootScope, dpdUserStore, DpdUser, fakeUser;
 
-  beforeEach(module('navbarUserComponent'));
+  beforeEach(module('navbarUserComponent', 'navbar-user-component.html'));
 
   beforeEach(inject(function(_$rootScope_, _$httpBackend_, _$compile_, _dpdUserStore_, _DpdUser_, _$controller_) {
     dpdUserStore = _dpdUserStore_;

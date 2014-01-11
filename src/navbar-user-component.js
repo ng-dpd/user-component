@@ -37,13 +37,7 @@ angular.module('navbarUserComponent', ['ngResource']).
       restrict: 'E',
       controller: 'NavbarUserComponentCtrl',
       controllerAs: 'userComponentCtrl',
-      template: '<div>' +
-                  '<div ng-if="userComponentCtrl.user.username">' +
-                    '{{userComponentCtrl.user.username}}' +
-                  '</div>' +
-                  '<div ng-if="!userComponentCtrl.user.username">' +
-                    '<form name="loginForm"></form>' +
-                  '</div>' +
-                '</div>'
+      scope: {},
+      templateUrl: 'navbar-user-component.html'
     };
   });
