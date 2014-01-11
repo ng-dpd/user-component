@@ -1,0 +1,34 @@
+{
+  "name": "navbar-user-component",
+  "version": "0.0.1",
+  "description": "An AngularJS component for deployd user login/logout/register optimized for Bootstrap 3 navbar.",
+  "main": "src/navbar-user-component.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_module/.bin/karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ng-dpd/navbar-user-component"
+  },
+  "author": "jeffbcross",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ng-dpd/navbar-user-component/issues"
+  },
+  "homepage": "https://github.com/ng-dpd/navbar-user-component",
+  "devDependencies": {
+    "karma-script-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.2",
+    "karma-firefox-launcher": "~0.1.3",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-jasmine": "~0.1.5",
+    "karma-coffee-preprocessor": "~0.1.2",
+    "requirejs": "~2.1.10",
+    "karma-requirejs": "~0.2.1",
+    "karma-phantomjs-launcher": "~0.1.1",
+    "karma": "~0.10.9"
+  }
+}

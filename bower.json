@@ -1,0 +1,32 @@
+{
+  "name": "ng-dpd-navbar-user",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ng-dpd/navbar-user-component",
+  "authors": [
+    "Jeff Cross <middlefloor@gmail.com>"
+  ],
+  "description": "An AngularJS component for deployd user login/logout/register optimized for Bootstrap 3 navbar.",
+  "main": "src/navbar-user-component.js",
+  "keywords": [
+    "deployd",
+    "dpd",
+    "angular",
+    "javascript",
+    "bootstrap"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "node_modules",
+    "package.json",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular-mocks": "~1.2.8"
+  },
+  "dependencies": {
+    "angular-resource": "~1.2.8"
+  }
+}
