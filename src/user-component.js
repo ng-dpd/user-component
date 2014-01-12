@@ -17,8 +17,8 @@ angular.module('dpdUser', ['ngResource']).
         this.user = dpdUserStore;
 
         this.onGetMe = function (user) {
-          if (user.data && user.data.username) {
-            dpdUserStore.set(user.data.username, user.data.id);
+          if (user && user.username) {
+            dpdUserStore.set(user.username, user.id);
           }
           else {
             dpdUserStore.clear();
@@ -26,8 +26,8 @@ angular.module('dpdUser', ['ngResource']).
         };
 
         this.onLogin = function (username, user) {
-          dpdUserStore.set(username, user.data.uid);
-          $rootScope.$emit('dpdUser.login', {username: username, id: user.data.uid});
+          dpdUserStore.set(username, user.uid);
+          $rootScope.$emit('dpdUser.login', {username: username, id: user.uid});
           self.loginError = null;
         };
 
@@ -59,7 +59,9 @@ angular.module('dpdUser', ['ngResource']).
           $rootScope.$emit('dpdUser.logout');
         };
 
-        $http.get('/users/me').then(this.onGetMe, this.onGetMeError);
+        $http.get('/users/me').
+          success(this.onGetMe).
+          error(this.onGetMeError);
   }]).
   directive('dpdUserComponent', function() {
     return {

@@ -89,9 +89,9 @@ describe('UserComponent', function() {
     describe('.login()', function () {
       it('should attempt to log in', function () {
         var controller, spy = spyOn(dpdUserStore, 'set');
-        $httpBackend.expectGET('/users/me').respond(JSON.stringify(fakeUser));
+        $httpBackend.expectGET('/users/me').respond(200);
         controller = $controller('UserComponentCtrl', $rootScope.$new());
-        $httpBackend.expectPOST('/users/login').respond('{"data": {"uid": "uniqueid"}}');
+        $httpBackend.expectPOST('/users/login').respond('{"uid": "uniqueid"}');
 
         controller.login('myusername', 'fooey');
         $httpBackend.flush();
