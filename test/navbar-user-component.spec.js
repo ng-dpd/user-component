@@ -101,17 +101,12 @@ describe('UserComponent', function() {
         var controller, spy = spyOn(dpdUserStore, 'set');
         $httpBackend.expectGET('/users/me').respond(200);
         controller = $controller('UserComponentCtrl', $rootScope.$new());
-        $httpBackend.expectPOST('/users/login').respond('{"uid": "uniqueid"}');
+        $httpBackend.expectPOST('/users/login').respond('{"data": {"uid": "uniqueid"}}');
 
         controller.login('myusername', 'fooey');
         $httpBackend.flush();
 
         expect(spy).toHaveBeenCalledWith('myusername', 'uniqueid');
-      });
-
-
-      it('should throw when not passed a required argument', function () {
-
       });
     });
 
@@ -121,13 +116,56 @@ describe('UserComponent', function() {
         var controller, spy = spyOn(angular, 'noop');
         $httpBackend.expectGET('/users/me').respond(200);
         controller = $controller('UserComponentCtrl', $rootScope.$new());
-        $httpBackend.expectPOST('/users/login').respond('{"uid": "uniqueid"}');
+
         $rootScope.$on('dpdUser.login', angular.noop);
-        controller.login('myusername', 'fooey');
+        controller.onLogin('foo', {data: {id: 'bar'}})
         $httpBackend.flush();
 
         expect(spy).toHaveBeenCalled();
       });
+
+
+      it('should set loginError to null', function () {
+        var controller, spy = spyOn(angular, 'noop');
+        $httpBackend.expectGET('/users/me').respond(200);
+        controller = $controller('UserComponentCtrl', $rootScope.$new());
+
+        $httpBackend.whenPOST('/users/login').respond(401);
+
+        controller.login('foobar', 'baz');
+        $httpBackend.flush();
+
+        expect(controller.loginError).toBe('Invalid username or password.');
+      });
+
+
+      it('should set loginError to "unknown error" if request errors', function () {
+        var controller, spy = spyOn(angular, 'noop');
+        $httpBackend.expectGET('/users/me').respond(200);
+        controller = $controller('UserComponentCtrl', $rootScope.$new());
+
+        $httpBackend.whenPOST('/users/login').respond(400);
+
+        controller.login('foobar', 'baz');
+        $httpBackend.flush();
+
+        expect(controller.loginError).toBe('Unknown error occurred when attemping to log in.');
+      });
+    });
+
+
+    describe('.onLoginError()', function () {
+      it('should set loginError to invalid credentials if server responds as such',
+        function () {
+          var controller;
+          $httpBackend.expectGET('/users/me').respond(200);
+          controller = $controller('UserComponentCtrl', $rootScope.$new());
+          controller.loginError = 'Invalid username or password';
+
+          $rootScope.$on('dpdUser.login', angular.noop);
+          controller.onLogin('foo', {data: {id: 'bar'}})
+          $httpBackend.flush();
+        });
     });
   });
 

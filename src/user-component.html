@@ -27,6 +27,11 @@
                required>
 
       </div>
+
+      <div class="alert alert-danger" ng-if="userComponentCtrl.loginError">
+        {{userComponentCtrl.loginError}}
+      </div>
+
       <button type="submit"
               ng-disabled="!loginForm.$valid"
               class="btn btn-default">Log in</button>

@@ -14,6 +14,7 @@ angular.module('dpdUser', ['ngResource']).
     };
   }).
   controller('UserComponentCtrl', ['$rootScope', '$http', 'DpdUser', 'dpdUserStore', function($rootScope, $http, DpdUser, dpdUserStore) {
+    var self = this;
     this.user = dpdUserStore;
 
     this.onGetMe = function (user) {
@@ -25,12 +26,28 @@ angular.module('dpdUser', ['ngResource']).
       }
     };
 
+    this.onLogin = function (username, user) {
+      dpdUserStore.set(username, user.data.uid);
+      $rootScope.$emit('dpdUser.login', {username: username, id: user.data.uid});
+      self.loginError = null;
+    };
+
+    this.onLoginError = function (res, statusCode) {
+      switch (statusCode) {
+        case 401:
+          self.loginError = 'Invalid username or password.';
+          break;
+        default:
+          self.loginError = 'Unknown error occurred when attemping to log in.';
+      }
+    };
+
     this.login = function (username, password) {
       $http.post('/users/login', {username: username, password: password}).
-        then(function (user) {
-          dpdUserStore.set(username, user.data.uid);
-          $rootScope.$emit('dpdUser.login', {username: username, id: user.data.uid});
-        });
+        success(function (user) {
+          self.onLogin.call(self, username, user);
+        }).
+        error(this.onLoginError);
     };
 
     this.onGetMeError = function () {
