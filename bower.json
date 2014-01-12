@@ -6,7 +6,7 @@
     "Jeff Cross <middlefloor@gmail.com>"
   ],
   "description": "An AngularJS component for deployd user login/logout/register optimized for Bootstrap 3.",
-  "main": "src/user-component.js",
+  "main": "dist/user-component.js",
   "keywords": [
     "deployd",
     "dpd",
@@ -16,6 +16,7 @@
   ],
   "license": "MIT",
   "ignore": [
+    "src/",
     "**/.*",
     "bower_components",
     "node_modules",
