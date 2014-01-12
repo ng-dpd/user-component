@@ -1,11 +1,10 @@
 describe('UserComponent', function() {
-  var $httpBackend, $compile, $rootScope, dpdUserStore, DpdUser, fakeUser;
+  var $httpBackend, $compile, $rootScope, dpdUserStore, fakeUser;
 
   beforeEach(module('dpdUser', 'user-component.html'));
 
-  beforeEach(inject(function(_$rootScope_, _$httpBackend_, _$compile_, _dpdUserStore_, _DpdUser_, _$controller_) {
+  beforeEach(inject(function(_$rootScope_, _$httpBackend_, _$compile_, _dpdUserStore_, _$controller_) {
     dpdUserStore = _dpdUserStore_;
-    DpdUser = _DpdUser_;
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;
     $compile = _$compile_;
@@ -16,15 +15,6 @@ describe('UserComponent', function() {
   afterEach(function () {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
-  });
-
-
-  describe('DpdUser', function () {
-    it('should make a request to /users/me when calling get()', function () {
-      $httpBackend.expectGET('/users/me').respond(200);
-      DpdUser.get({path: 'me'});
-      $httpBackend.flush();
-    });
   });
 
 
@@ -75,7 +65,7 @@ describe('UserComponent', function() {
 
     describe('.logout()', function () {
       it('should log out when calling logout()', function () {
-        $httpBackend.expectGET('/users/me').respond(200);
+        $httpBackend.expectGET('/users/me').respond(JSON.stringify(fakeUser));
         var controller = $controller('UserComponentCtrl', $rootScope.$new());
         $httpBackend.expectGET('/users/logout').respond(200);
         controller.logout();
@@ -85,7 +75,7 @@ describe('UserComponent', function() {
 
       it('should clear dpdUserStore', function () {
         var controller, spy = spyOn(dpdUserStore, 'clear');
-        $httpBackend.expectGET('/users/me').respond(200);
+        $httpBackend.expectGET('/users/me').respond(JSON.stringify(fakeUser));
         controller = $controller('UserComponentCtrl', $rootScope.$new());
         $httpBackend.expectGET('/users/logout').respond(200);
         controller.logout();
@@ -99,7 +89,7 @@ describe('UserComponent', function() {
     describe('.login()', function () {
       it('should attempt to log in', function () {
         var controller, spy = spyOn(dpdUserStore, 'set');
-        $httpBackend.expectGET('/users/me').respond(200);
+        $httpBackend.expectGET('/users/me').respond(JSON.stringify(fakeUser));
         controller = $controller('UserComponentCtrl', $rootScope.$new());
         $httpBackend.expectPOST('/users/login').respond('{"data": {"uid": "uniqueid"}}');
 
@@ -114,7 +104,7 @@ describe('UserComponent', function() {
     describe('.onLogin()', function () {
       it('should emit a success notification', function () {
         var controller, spy = spyOn(angular, 'noop');
-        $httpBackend.expectGET('/users/me').respond(200);
+        $httpBackend.expectGET('/users/me').respond(JSON.stringify(fakeUser));
         controller = $controller('UserComponentCtrl', $rootScope.$new());
 
         $rootScope.$on('dpdUser.login', angular.noop);
@@ -127,7 +117,7 @@ describe('UserComponent', function() {
 
       it('should set loginError to null', function () {
         var controller, spy = spyOn(angular, 'noop');
-        $httpBackend.expectGET('/users/me').respond(200);
+        $httpBackend.expectGET('/users/me').respond(JSON.stringify(fakeUser));
         controller = $controller('UserComponentCtrl', $rootScope.$new());
 
         $httpBackend.whenPOST('/users/login').respond(401);
@@ -141,7 +131,7 @@ describe('UserComponent', function() {
 
       it('should set loginError to "unknown error" if request errors', function () {
         var controller, spy = spyOn(angular, 'noop');
-        $httpBackend.expectGET('/users/me').respond(200);
+        $httpBackend.expectGET('/users/me').respond(JSON.stringify(fakeUser));
         controller = $controller('UserComponentCtrl', $rootScope.$new());
 
         $httpBackend.whenPOST('/users/login').respond(400);
@@ -158,7 +148,7 @@ describe('UserComponent', function() {
       it('should set loginError to invalid credentials if server responds as such',
         function () {
           var controller;
-          $httpBackend.expectGET('/users/me').respond(200);
+          $httpBackend.expectGET('/users/me').respond(JSON.stringify(fakeUser));
           controller = $controller('UserComponentCtrl', $rootScope.$new());
           controller.loginError = 'Invalid username or password';
 
