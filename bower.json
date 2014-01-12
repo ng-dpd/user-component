@@ -1,5 +1,5 @@
 {
-  "name": "ng-dpd-user",
+  "name": "ng-dpd-user-component",
   "version": "0.0.1",
   "homepage": "https://github.com/ng-dpd/user-component",
   "authors": [
@@ -18,11 +18,13 @@
   "ignore": [
     "src/",
     "**/.*",
-    "bower_components",
-    "node_modules",
+    "bower_components/",
+    "node_modules/",
     "package.json",
     "test",
-    "tests"
+    "dist.js",
+    "karma.conf.js",
+    "README.md"
   ],
   "devDependencies": {
     "angular-mocks": "~1.2.8"

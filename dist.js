@@ -1,16 +1,13 @@
 var fs = require('fs'),
-    exec = require('child_process').exec,
-    path = require('path');
+    path = require('path'),
+    template, oneLinedTemplate, directive;
 
-exec('mkdir dist', function () {
-  var template = fs.readFileSync(path.resolve('src/user-component.html'));
-  var oneLinedTemplate = template.toString().split(/\s*\n\s*/).join('');
+template = fs.readFileSync(path.resolve('src/user-component.html'));
+oneLinedTemplate = template.toString().split(/\s*\n\s*/).join('');
 
-  var directive = fs.readFileSync(path.resolve('src/user-component.js')).toString();
-  directive = directive.replace(
-      /templateUrl\:\s*? 'user\-component\.html\'/, 'template: \'' +
-      oneLinedTemplate +'\'');
-  console.log(directive);
+directive = fs.readFileSync(path.resolve('src/user-component.js')).toString();
+directive = directive.replace(
+    /templateUrl\s*\:\s*? 'user\-component\.html\'/, 'template: \'' +
+    oneLinedTemplate +'\'');
 
-  fs.writeFileSync(path.resolve('dist/user-component.js'), directive);
-});
+fs.writeFileSync(path.resolve('user-component.js'), directive);
