@@ -163,7 +163,7 @@ describe('UserComponent', function() {
   describe('ngDpdNavbarUserComponent', function () {
     it('should show the username if the user is already logged in', function() {
       $httpBackend.whenGET('/users/me').respond(JSON.stringify(fakeUser));
-      var compiled = $compile('<dpd-user-component></dpd-user-component>')($rootScope);
+      var compiled = $compile('<dpd-user></dpd-user>')($rootScope);
       $rootScope.$apply();
       $httpBackend.flush();
 
@@ -173,7 +173,7 @@ describe('UserComponent', function() {
 
     it('should show an error message when fetching a user throws an error', function () {
       $httpBackend.whenGET('/users/me').respond(400);
-      var compiled = $compile('<dpd-user-component></dpd-user-component>')($rootScope);
+      var compiled = $compile('<dpd-user></dpd-user>')($rootScope);
       $rootScope.$apply();
       $httpBackend.flush();
 
