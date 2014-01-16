@@ -63,7 +63,7 @@ angular.module('dpdUser', ['ngResource']).
           success(this.onGetMe).
           error(this.onGetMeError);
   }]).
-  directive('dpdUserComponent', function() {
+  directive('dpdUser', function() {
     return {
       restrict: 'E',
       controller: 'UserComponentCtrl',
