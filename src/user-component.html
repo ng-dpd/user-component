@@ -1,7 +1,7 @@
 <div>
   <div ng-if="userComponentCtrl.user.username">
-    {{userComponentCtrl.user.username}}
-    |
+    Logged in as <strong ng-bind="userComponentCtrl.user.username"></strong>
+    <br>
     <a ng-click="userComponentCtrl.logout()">logout</a>
   </div>
   <div ng-if="!userComponentCtrl.user.username">
