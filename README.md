@@ -1,4 +1,4 @@
-# user-component
+# &lt;dpd-user&gt;
 
 An AngularJS component for deployd user login/logout/<strike>register</strike>
 optimized for Bootstrap 3. Checks for a logged-in user, and shows either a login
