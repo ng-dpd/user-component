@@ -1,6 +1,6 @@
 {
   "name": "user-component",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "An AngularJS component for deployd user login/logout/register optimized for Bootstrap 3.",
   "main": "src/user-component.js",
   "directories": {
