@@ -8,11 +8,17 @@ form or the user's username with a logout link.
 
 ## Usage
 
+### 1. Get the component
+
 `$ bower install ng-dpd-user-component`
+
+### 2. Add the module as a dependency
 
 ```javascript
 var app = angular.module('myApp', ['dpdUser']);
 ```
+
+### 3. Use the component in a template
 
 ```html
 <script src="bower_components/ng-dpd-user-component/user-component.js"></script>
@@ -38,6 +44,11 @@ Used by this directive, but can be used anywhere else in the app as well.
     * `set(username, id)` pass-through setter
     * `clear()` sets properties to null
 
+
+## Development
+ * `$ npm install .`
+ * Test: `$ npm test` (starts karma and keeps it open)
+ * Package for distribution: `$ node dist.js` (merges template into javascript as string, copies to `./user-component.js`)
 
 ## Todo
 
