@@ -42,3 +42,4 @@ Used by this directive, but can be used anywhere else in the app as well.
 ## Todo
 
  * Add registration form
+ * Allow setting custom path for users collection
