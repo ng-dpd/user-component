@@ -1,4 +1,4 @@
-angular.module('dpdUser', ['ngResource']).
+angular.module('dpdUser', []).
   service('dpdUserStore', function () {
     this.set = function (username, id) {
       this.username = username;

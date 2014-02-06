@@ -47,6 +47,7 @@ Used by this directive, but can be used anywhere else in the app as well.
 
 ## Development
  * `$ npm install .`
+ * `$ bower install`
  * Test: `$ npm test` (starts karma and keeps it open)
  * Package for distribution: `$ node dist.js` (merges template into javascript as string, copies to `./user-component.js`)
 
